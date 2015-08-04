@@ -5,9 +5,10 @@ import (
 	"bufio"
 	"os"
 	"math"
-	"github.com/bkaradzic/go-lz4"
+//	"github.com/bkaradzic/go-lz4"
+	"github.com/pierrec/lz4"
 	"io/ioutil"
-	"fmt"
+	"bytes"
 )
 
 const aFile string = "test-data/N50E014.hgt"
@@ -48,14 +49,12 @@ func getElevationLz4(lat float64, lon float64) int16 {
 	bufSize := 2 * NO_OF_PIXELS_PER_LINE * NO_OF_PIXELS_PER_LINE
 	var dst []byte
 	dst = make([]byte, bufSize)
-	xdst, err := lz4.Decode(dst, compressedData)
+	reader := lz4.NewReader(bytes.NewReader(compressedData))
+	read, err := reader.Read(dst)
 	check(err)
-
-	fmt.Printf("%x\n", dst[0])
-	fmt.Printf("%x\n", dst[1])
-	fmt.Printf("%x\n", dst[2])
-	fmt.Printf("%x\n", dst[3])
-	fmt.Printf("%d\n", len(xdst))
+	if read != len(dst){
+		// return error, buffer doesn't fit expected file size
+	}
 
 	return int16(int(dst[offset]) << 8 + int(dst[offset+1]))
 }

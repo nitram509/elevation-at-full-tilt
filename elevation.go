@@ -30,12 +30,12 @@ func getElevation(lat float64, lon float64) int16 {
 }
 
 func calculateOffset(upperLeft quadtree.Twof, lowerRight quadtree.Twof, lat float64, lon float64) int64 {
-	const dLat = math.Abs(lat - upperLeft[1])
-	const dLon = math.Abs(lon - upperLeft[0])
-	const distLat = math.Abs(upperLeft[1] - lowerRight[1])
-	const distLon = math.Abs(upperLeft[0] - lowerRight[0])
-	const nearestLat = int(dLat * float64(NO_OF_PIXELS_PER_LINE) / distLat);
-	const nearestLon = int(dLon * float64(NO_OF_PIXELS_PER_LINE) / distLon)
+	dLat := math.Abs(lat - upperLeft[1])
+	dLon := math.Abs(lon - upperLeft[0])
+	distLat := math.Abs(upperLeft[1] - lowerRight[1])
+	distLon := math.Abs(upperLeft[0] - lowerRight[0])
+	nearestLat := int(dLat * float64(NO_OF_PIXELS_PER_LINE) / distLat);
+	nearestLon := int(dLon * float64(NO_OF_PIXELS_PER_LINE) / distLon)
 	return int64(NO_OF_PIXELS_PER_LINE * nearestLat + nearestLon) << 1
 }
 

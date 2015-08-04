@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/larspensjo/quadtree"
 	"bufio"
 	"os"
@@ -12,7 +11,7 @@ const aFile string = "test-data/N50E014.hgt"
 const NO_OF_PIXELS_PER_LINE = 1201
 
 func getElevation(lat float64, lon float64) int16 {
-	fmt.Printf("Lat/Lon: %f, %f\n", lat, lon)
+
 	f, err := os.Open(aFile)
 	check(err)
 
@@ -30,10 +29,6 @@ func getElevation(lat float64, lon float64) int16 {
 	r4 := bufio.NewReader(f)
 	heightBuf, err := r4.Peek(2)
 	check(err)
-	fmt.Printf("Offset: %d\n", offset)
-	fmt.Printf("Height-dez: %d\n", int(int(heightBuf[0]) << 8 + int(heightBuf[1])))
-	fmt.Printf("Height-hex: %.2x%.2x\n", heightBuf[0], heightBuf[1])
-
 	return int16(int(heightBuf[0]) << 8 + int(heightBuf[1]))
 }
 

@@ -13,11 +13,10 @@ func Test_read_bounding_coordinates_from_file(t *testing.T) {
 		t.Errorf("the test data should be readable")
 	}
 
-	assertEqualsCoordinate(t, "EastBoundingCoordinate", boundingRectangle.BoundingRectangle.EastBoundingCoordinate, 15.00083333)
-	assertEqualsCoordinate(t, "WestBoundingCoordinate", boundingRectangle.BoundingRectangle.WestBoundingCoordinate, 13.99916667)
-	assertEqualsCoordinate(t, "NorthBoundingCoordinate", boundingRectangle.BoundingRectangle.NorthBoundingCoordinate, 51.00083333)
-	assertEqualsCoordinate(t, "SouthBoundingCoordinate", boundingRectangle.BoundingRectangle.SouthBoundingCoordinate, 49.99916667)
-
+	assertEqualsCoordinate(t, "EastBoundingCoordinate", boundingRectangle.EastBoundingCoordinate, 15.00083333)
+	assertEqualsCoordinate(t, "WestBoundingCoordinate", boundingRectangle.WestBoundingCoordinate, 13.99916667)
+	assertEqualsCoordinate(t, "NorthBoundingCoordinate", boundingRectangle.NorthBoundingCoordinate, 51.00083333)
+	assertEqualsCoordinate(t, "SouthBoundingCoordinate", boundingRectangle.SouthBoundingCoordinate, 49.99916667)
 }
 
 func assertEqualsCoordinate(t *testing.T, name string, coordinate float64, expected float64) {

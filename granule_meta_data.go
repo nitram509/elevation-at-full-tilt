@@ -6,28 +6,20 @@ import (
 	"encoding/xml"
 )
 
-type GranuleMetaData struct {
-	BoundingRectangle BoundingRectangle `xml:"GranuleURMetaData>SpatialDomainContainer>HorizontalSpatialDomainContainer>BoundingRectangle"`
-}
-
 type BoundingRectangle struct {
-	WestBoundingCoordinate  float64
-	NorthBoundingCoordinate float64
-	EastBoundingCoordinate  float64
-	SouthBoundingCoordinate float64
+	WestBoundingCoordinate  float64 `xml:"GranuleURMetaData>SpatialDomainContainer>HorizontalSpatialDomainContainer>BoundingRectangle>WestBoundingCoordinate"`
+	NorthBoundingCoordinate float64  `xml:"GranuleURMetaData>SpatialDomainContainer>HorizontalSpatialDomainContainer>BoundingRectangle>NorthBoundingCoordinate"`
+	EastBoundingCoordinate  float64 `xml:"GranuleURMetaData>SpatialDomainContainer>HorizontalSpatialDomainContainer>BoundingRectangle>EastBoundingCoordinate"`
+	SouthBoundingCoordinate float64 `xml:"GranuleURMetaData>SpatialDomainContainer>HorizontalSpatialDomainContainer>BoundingRectangle>SouthBoundingCoordinate"`
 }
 
-func readBoundingRectangle(fName string) (GranuleMetaData, error) {
+func readBoundingRectangle(fName string) (BoundingRectangle, error) {
 	xmlFile, err := ioutil.ReadFile(fName)
 	if err != nil {
 		fmt.Println("Error opening file:", err)
-		return GranuleMetaData{}, err
+		return BoundingRectangle{}, err
 	}
-
-	var granuleMetaData GranuleMetaData
-	xml.Unmarshal(xmlFile, &granuleMetaData)
-
-	fmt.Println(granuleMetaData.BoundingRectangle.EastBoundingCoordinate)
-
-	return granuleMetaData, nil
+	var x BoundingRectangle
+	xml.Unmarshal(xmlFile, &x)
+	return x, nil
 }

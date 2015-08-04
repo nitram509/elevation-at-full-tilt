@@ -5,7 +5,6 @@ import (
 	"bufio"
 	"os"
 	"math"
-//	"github.com/bkaradzic/go-lz4"
 	"github.com/pierrec/lz4"
 	"io/ioutil"
 	"bytes"
@@ -52,7 +51,7 @@ func getElevationLz4(lat float64, lon float64) int16 {
 	reader := lz4.NewReader(bytes.NewReader(compressedData))
 	read, err := reader.Read(dst)
 	check(err)
-	if read != len(dst){
+	if read != len(dst) {
 		// return error, buffer doesn't fit expected file size
 	}
 

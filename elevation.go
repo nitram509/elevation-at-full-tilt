@@ -17,9 +17,19 @@ func getElevation(lat float64, lon float64) int16 {
 	check(err)
 	defer f.Close()
 
-	boundingRectangle, _ := readBoundingRectangle(aXmlFile)
+	boundingRectangle, err := readBoundingRectangle(aXmlFile)
+	check(err)
 	upperLeft, lowerRight := calculateUpperLeftAndLowerRightLikeGdalDataSet(boundingRectangle)
 
+	f.Seek(calculateOffset(upperLeft, lowerRight, lat, lon), 0)
+	check(err)
+	r4 := bufio.NewReader(f)
+	heightBuf, err := r4.Peek(2)
+	check(err)
+	return int16(int(heightBuf[0]) << 8 + int(heightBuf[1]))
+}
+
+func calculateOffset(upperLeft quadtree.Twof, lowerRight quadtree.Twof, lat float64, lon float64) int64 {
 	dLat := math.Abs(lat - upperLeft[1])
 	dLon := math.Abs(lon - upperLeft[0])
 	distLat := math.Abs(upperLeft[1] - lowerRight[1])
@@ -27,12 +37,7 @@ func getElevation(lat float64, lon float64) int16 {
 	nearestLat := int(dLat * float64(NO_OF_PIXELS_PER_LINE) / distLat);
 	nearestLon := int(dLon * float64(NO_OF_PIXELS_PER_LINE) / distLon)
 	offset := int64(NO_OF_PIXELS_PER_LINE * nearestLat + nearestLon) << 1
-	f.Seek(offset, 0)
-	check(err)
-	r4 := bufio.NewReader(f)
-	heightBuf, err := r4.Peek(2)
-	check(err)
-	return int16(int(heightBuf[0]) << 8 + int(heightBuf[1]))
+	return offset
 }
 
 func calculateUpperLeftAndLowerRightLikeGdalDataSet(boundingRectangle BoundingRectangle) (quadtree.Twof, quadtree.Twof) {

@@ -4,28 +4,21 @@ import (
 	"fmt"
 	"github.com/larspensjo/quadtree"
 	"gopkg.in/alecthomas/kingpin.v1"
-	"strconv"
 )
 
 const (
 	VERSION = "0.0.1"
-	DEFAULT_MAX_MBYTES = 1000
-	DEFAULT_NO_PATH = "<<no-path>>"
+	DEFAULT_MAX_MBYTES = 100
 )
 
 var (
-	flagMaxMegaBytes = kingpin.Flag("maxMegaBytes", "Max MegaBytes").Short('m').Default(strconv.Itoa(DEFAULT_MAX_MBYTES)).Int64()
+	flagMaxMegaBytes int64= int64(DEFAULT_MAX_MBYTES) //kingpin.Flag("maxMegaBytes", "Max MegaBytes").Short('m').Default(strconv.Itoa(DEFAULT_MAX_MBYTES)).Int64()
 )
 
 func check(e error) {
 	if e != nil {
 		panic(e)
 	}
-}
-
-type SrtmTile struct {
-	quadtree.Handle
-	// Add other attributes here
 }
 
 func printSrtmTiles() {

@@ -27,8 +27,8 @@ func visit(path string, f os.FileInfo, err error) error {
 		return nil
 	}
 
-	if strings.HasSuffix(path, ".hgt") {
-		metaDataFile := path + ".xml"
+	if strings.HasSuffix(path, ".hgt.lz4") {
+		metaDataFile := path[0:len(path)-4] + ".xml"
 		if _, err := os.Stat(metaDataFile); err == nil {
 			srtmTile := SrtmTile{}
 			srtmTile.BoundingRectangle, err = readBoundingRectangle(metaDataFile)
@@ -47,7 +47,7 @@ func visit(path string, f os.FileInfo, err error) error {
 }
 
 
-func (srtmTileCollector SrtmTileCollector) init() {
+func initSrtmTileCollector() {
 	srtmTileCollector.loadedDataSize = 0
 	upperLeft := quadtree.Twof{+90, -180}
 	lowerRight := quadtree.Twof{-90, +180}
@@ -55,7 +55,8 @@ func (srtmTileCollector SrtmTileCollector) init() {
 }
 
 func loadHgtFilesIntoStorage(basePath string) {
-	srtmTileCollector.init()
+	initSrtmTileCollector()
 	err := filepath.Walk(basePath, visit)
 	fmt.Printf("filepath.Walk() returned %v\n", err)
+	fmt.Printf(">> final loadedDataSize: %d\n", srtmTileCollector.loadedDataSize)
 }

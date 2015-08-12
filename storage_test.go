@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-const BASE_PATH = "d:\\srtm-data\\http__e4ftl01.cr.usgs.gov__SRTM__SRTMGL3.003__2000.02.11"
+const BASE_PATH = "/home/maki/srtm-data/lz4-hc"
 
 func Test_loading_files_into_storage(t *testing.T) {
 

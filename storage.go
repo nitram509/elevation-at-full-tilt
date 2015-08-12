@@ -41,9 +41,9 @@ func visit(path string, f os.FileInfo, err error) error {
 			srtmTileCollector.loadedDataSize += int64(len(srtmTile.CompressedData))
 			fmt.Printf("Visited: %s\n", path)
 			fmt.Printf(">> loadedDataSize: %d\n", srtmTileCollector.loadedDataSize)
+		}
 	}
-}
-return nil
+	return nil
 }
 
 

@@ -5,12 +5,12 @@ import (
 )
 
 const (
-	VERSION = "0.0.1"
+	VERSION            = "0.0.1"
 	DEFAULT_MAX_MBYTES = 100
 )
 
 var (
-	flagMaxMegaBytes int64= int64(DEFAULT_MAX_MBYTES) //kingpin.Flag("maxMegaBytes", "Max MegaBytes").Short('m').Default(strconv.Itoa(DEFAULT_MAX_MBYTES)).Int64()
+	flagMaxMegaBytes int64 = int64(DEFAULT_MAX_MBYTES) //kingpin.Flag("maxMegaBytes", "Max MegaBytes").Short('m').Default(strconv.Itoa(DEFAULT_MAX_MBYTES)).Int64()
 )
 
 func check(e error) {

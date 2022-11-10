@@ -1,13 +1,13 @@
 package main
 
 import (
-	"path/filepath"
-	"os"
 	"fmt"
-	"strings"
 	"io/ioutil"
 	"math"
+	"os"
 	"path"
+	"path/filepath"
+	"strings"
 )
 
 type SrtmTile struct {
@@ -20,8 +20,8 @@ type SrtmTileCollector struct {
 	loadedDataSize int64
 	tileIndex      map[string]*SrtmTile
 }
-var srtmTileCollector = SrtmTileCollector{}
 
+var srtmTileCollector = SrtmTileCollector{}
 
 func initSrtmTileCollector() {
 	srtmTileCollector.loadedDataSize = 0
@@ -31,12 +31,12 @@ func initSrtmTileCollector() {
 func computeTileName(lat float64, lon float64) string {
 	var ns string
 	var ew string
-	if (lat < 0) {
+	if lat < 0 {
 		ns = "S"
 	} else {
 		ns = "N"
 	}
-	if (lon <= 0) {
+	if lon <= 0 {
 		ew = "E"
 	} else {
 		ew = "W"
@@ -55,7 +55,7 @@ func readSrtmTile(heightDataFile string, metaDataFile string) SrtmTile {
 	srtmTile.CompressedData, err = ioutil.ReadFile(heightDataFile)
 	check(err)
 	srtmTile.name = path.Base(heightDataFile)
-	srtmTile.name = srtmTile.name[0:len(srtmTile.name)-LEN_DOT_HGT_DOT_LZ4]
+	srtmTile.name = srtmTile.name[0 : len(srtmTile.name)-LEN_DOT_HGT_DOT_LZ4]
 	return srtmTile
 }
 
@@ -84,7 +84,7 @@ func loadHgtFilesIntoStorage(basePath string) {
 	fmt.Printf(">> final loadedDataSize: %d\n", srtmTileCollector.loadedDataSize)
 }
 
-func getTile(lat float64, lon float64) {
+func getTile(lat float64, lon float64) *SrtmTile {
 	name := computeTileName(lat, lon)
 	tile := srtmTileCollector.tileIndex[name]
 	return tile

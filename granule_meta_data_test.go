@@ -9,7 +9,7 @@ const TEST_XML_FILE string = "test-data/N50E014.hgt.xml"
 func Test_read_bounding_coordinates_from_file(t *testing.T) {
 	boundingRectangle, err := readBoundingRectangle(TEST_XML_FILE)
 
-	if (err != nil) {
+	if err != nil {
 		t.Errorf("the test data should be readable")
 	}
 

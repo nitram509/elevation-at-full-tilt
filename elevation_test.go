@@ -1,10 +1,10 @@
 package main
 
 import (
+	"github.com/corbym/gocrest/is"
+	"github.com/corbym/gocrest/then"
 	"testing"
 )
-
-const TEST_FILE string = "test-data/N50E014.hgt"
 
 func Test_resolve_elevation_for_well_known_points(t *testing.T) {
 	cases := []struct {
@@ -17,10 +17,8 @@ func Test_resolve_elevation_for_well_known_points(t *testing.T) {
 		{50.4163577778, 14.9198269444, 216},
 	}
 	for _, c := range cases {
-		actualElevation := getElevation(c.lat, c.lon)
-		if actualElevation != c.expectedElevation {
-			t.Errorf("Lat=%f, Lon=%f, expected elevation=%d --- but actual elevation=%d", c.lat, c.lon, c.expectedElevation, actualElevation)
-		}
+		elevation := getElevation(c.lat, c.lon)
+		then.AssertThat(t, elevation, is.EqualTo(c.expectedElevation))
 	}
 }
 
@@ -35,9 +33,7 @@ func Test_resolve_elevation_for_well_known_points_with_LZ4(t *testing.T) {
 		{50.4163577778, 14.9198269444, 216},
 	}
 	for _, c := range cases {
-		actualElevation := getElevationLz4(c.lat, c.lon)
-		if actualElevation != c.expectedElevation {
-			t.Errorf("Lat=%f, Lon=%f, expected elevation=%d --- but actual elevation=%d", c.lat, c.lon, c.expectedElevation, actualElevation)
-		}
+		elevation := getElevationLz4(c.lat, c.lon)
+		then.AssertThat(t, elevation, is.EqualTo(c.expectedElevation))
 	}
 }

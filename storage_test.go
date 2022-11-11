@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/corbym/gocrest/is"
+	"github.com/corbym/gocrest/then"
 	"testing"
 )
 
@@ -19,9 +21,7 @@ func Test_a_tile_name_is_computed_from_lat_lon(t *testing.T) {
 	}
 	for _, c := range cases {
 		name := computeTileName(c.lat, c.lon)
-		if name != c.expectedName {
-			t.Errorf("Lat=%f, Lon=%f, expected name=%s --- but actual name=%s", c.lat, c.lon, c.expectedName, name)
-		}
+		then.AssertThat(t, name, is.EqualTo(c.expectedName))
 	}
 }
 

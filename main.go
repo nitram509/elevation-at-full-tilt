@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"gopkg.in/alecthomas/kingpin.v1"
 )
 
@@ -24,7 +25,7 @@ func main() {
 	kingpin.Version(VERSION)
 	kingpin.Parse()
 
-	getElevation(50.918961, 14.057732)
-	getElevation(50.851495, 14.301564)
-	getElevation(50.4163577778, 14.9198269444)
+	fmt.Printf("%d\n", getElevation(50.918961, 14.057732))
+	fmt.Printf("%d\n", getElevation(50.851495, 14.301564))
+	fmt.Printf("%d\n", getElevation(50.4163577778, 14.9198269444))
 }

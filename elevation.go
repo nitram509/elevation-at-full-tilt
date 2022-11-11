@@ -4,8 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"github.com/larspensjo/quadtree"
-	"github.com/pierrec/lz4"
-	"io/ioutil"
+	lz4 "github.com/pierrec/lz4/v4"
 	"math"
 	"os"
 )
@@ -17,14 +16,13 @@ const NO_OF_PIXELS_PER_LINE = 1201
 
 func getElevation(lat float64, lon float64) int16 {
 
-	f, err := os.Open(aFile)
-	check(err)
-	defer f.Close()
-
 	boundingRectangle, err := readBoundingRectangle(aXmlFile)
 	check(err)
 	upperLeft, lowerRight := calculateUpperLeftAndLowerRightLikeGdalDataSet(boundingRectangle)
 
+	f, err := os.Open(aFile)
+	check(err)
+	defer f.Close()
 	f.Seek(calculateOffset(upperLeft, lowerRight, lat, lon), 0)
 	check(err)
 	r4 := bufio.NewReader(f)
@@ -41,13 +39,14 @@ func getElevationLz4(lat float64, lon float64) int16 {
 
 	offset := calculateOffset(upperLeft, lowerRight, lat, lon)
 
-	compressedData, err := ioutil.ReadFile(aLz4File)
+	compressedData, err := os.ReadFile(aLz4File)
 	check(err)
 
 	bufSize := 2 * NO_OF_PIXELS_PER_LINE * NO_OF_PIXELS_PER_LINE
 	var dst []byte
 	dst = make([]byte, bufSize)
 	reader := lz4.NewReader(bytes.NewReader(compressedData))
+	reader.Apply()
 	read, err := reader.Read(dst)
 	check(err)
 	if read != len(dst) {

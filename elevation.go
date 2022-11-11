@@ -46,7 +46,6 @@ func getElevationLz4(lat float64, lon float64) int16 {
 	var dst []byte
 	dst = make([]byte, bufSize)
 	reader := lz4.NewReader(bytes.NewReader(compressedData))
-	reader.Apply()
 	read, err := reader.Read(dst)
 	check(err)
 	if read != len(dst) {
